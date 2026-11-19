@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d2e1a">
+<title>ระบบงานสาขา</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap">
+<style>
+:root{
+  --deep:#0d2e1a; --df:#1a4a2e; --df-btn:#2d8a52; --green-l:#e8f5ee; --border:#d0dcd0;
+  --text:#1a2a1a; --muted:#5f7f5f; --surface:#fff;
+  box-sizing:border-box;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{font-family:'Sarabun','Noto Sans Thai',system-ui,sans-serif;font-size:16px;line-height:1.45;color:var(--text);background:#0d2e1a}
+.screen{position:relative;min-height:100vh;min-height:100dvh;max-width:720px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;overflow:hidden;
+  padding:calc(26px + env(safe-area-inset-top,0px)) 16px calc(34px + env(safe-area-inset-bottom,0px));
+  background:linear-gradient(160deg,#0d2e1a 0%,#1a4a2e 45%,#2d6b42 100%)}
+.brand{text-align:center;z-index:1}
+.logo{width:78px;height:78px;margin:0 auto 12px;border-radius:22px;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);display:grid;place-items:center;font-size:40px}
+.b1{font-size:28px;font-weight:800;color:#fff;letter-spacing:-.5px;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.b2{font-size:12.5px;color:rgba(255,255,255,.65);letter-spacing:2.5px;margin-top:4px;font-weight:600}
+.panel{z-index:1;width:100%;max-width:372px;background:rgba(255,255,255,.97);border-radius:20px;padding:20px 18px 18px;box-shadow:0 20px 60px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.1);display:flex;flex-direction:column;gap:10px}
+.panel h2{margin:0 0 2px;font-size:16px;font-weight:700;color:var(--df)}
+.choice{display:flex;align-items:center;gap:14px;min-height:72px;padding:10px 14px;border-radius:14px;border:2px solid var(--border);background:var(--surface);color:var(--text);text-decoration:none;transition:transform .1s,border-color .15s,background .15s}
+.choice:hover{border-color:var(--df-btn);background:var(--green-l)}
+.choice:active{transform:scale(.97)}
+.choice:focus-visible{outline:3px solid #22a050;outline-offset:2px}
+.ci{flex:none;width:48px;height:48px;border-radius:13px;background:var(--green-l);display:grid;place-items:center;font-size:26px}
+.ct{flex:1;min-width:0}
+.ct b{display:block;font-size:18px;font-weight:800;color:var(--df)}
+.ct span{display:block;font-size:13.5px;color:var(--muted)}
+.arrow{flex:none;font-size:22px;color:var(--df-btn);font-weight:800}
+.choice.empty{border-style:dashed}
+.choice.empty .arrow{font-size:13px;color:var(--muted);font-weight:700}
+.credit{z-index:1;margin:2px 0 0;color:rgba(255,255,255,.6);font-size:13px}
+.gear{position:absolute;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.85);font-size:17px;display:grid;place-items:center;z-index:2;cursor:pointer}
+.fruit{position:absolute;pointer-events:none;opacity:.85;font-size:calc(clamp(34px,11vw,72px) * var(--k,1));filter:drop-shadow(0 8px 24px rgba(0,0,0,.25));animation:bob 2.4s ease-in-out infinite alternate;z-index:0}
+.leaf{position:absolute;bottom:-40px;pointer-events:none;opacity:0;animation:leaf linear infinite;z-index:0}
+@keyframes bob{from{transform:rotate(-4deg) scale(1)}to{transform:translateY(-12px) rotate(4deg) scale(1.04)}}
+@keyframes leaf{0%{opacity:0;transform:translateY(0) rotate(0) scale(.8)}10%{opacity:.5}90%{opacity:.3}100%{opacity:0;transform:translateY(-110vh) rotate(360deg) scale(1)}}
+dialog{border:none;border-radius:20px;padding:22px 18px;max-width:372px;width:calc(100% - 32px);background:#fff;color:var(--text)}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+dialog h3{margin:0 0 2px;font-size:18px;font-weight:800;color:var(--df)}
+dialog .hint{margin:0 0 6px;color:var(--muted);font-size:13.5px}
+label{display:block;font-weight:700;font-size:14px;margin:12px 0 4px}
+input{width:100%;font:inherit;min-height:44px;padding:0 12px;border-radius:11px;border:2px solid var(--border);background:#fff;color:var(--text)}
+input:focus{outline:3px solid #22a050;outline-offset:1px}
+.row{display:flex;gap:10px;margin-top:18px}
+.row button{flex:1;min-height:48px;font:inherit;font-weight:700;border-radius:11px;border:2px solid transparent;cursor:pointer}
+.row .no{background:#fff;border-color:var(--border);color:var(--muted)}
+.row .ok{background:linear-gradient(135deg,var(--df-btn),var(--df));color:#fff;box-shadow:0 4px 14px rgba(29,74,46,.35)}
+@media(prefers-reduced-motion:reduce){.fruit,.leaf{animation:none}.leaf{display:none}.choice{transition:none}}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="fruit" style="left:2%;top:3%;--k:1">🥑</div>
+  <div class="fruit" style="left:0%;top:42%;--k:.85">🍅</div>
+  <div class="fruit" style="left:3%;top:78%;--k:.8">🥦</div>
+  <div class="fruit" style="right:2%;top:5%;--k:1">🍊</div>
+  <div class="fruit" style="right:1%;top:46%;--k:.85">🍋</div>
+  <div class="fruit" style="right:3%;top:80%;--k:.95">🍇</div>
+  <span class="leaf" style="left:20%;font-size:18px;animation-duration:14s">🌿</span>
+  <span class="leaf" style="left:45%;font-size:14px;animation-duration:15s;animation-delay:4s">🍃</span>
+  <span class="leaf" style="left:70%;font-size:16px;animation-duration:12s;animation-delay:1.5s">🌱</span>
+
+  <div class="brand">
+    <div class="logo" aria-hidden="true">🥬</div>
+    <div class="b1">ระบบงานสาขา</div>
+    <div class="b2">BRANCH OPERATIONS · สาขาบริษัท</div>
+  </div>
+
+  <div class="panel">
+    <h2>เลือกงานที่ต้องการทำ</h2>
+    <div id="list" style="display:flex;flex-direction:column;gap:10px"></div>
+  </div>
+  <p class="credit">แตะเพื่อเปิดแอป</p>
+
+  <button class="gear" id="openSet" type="button" aria-label="ตั้งค่าลิงก์">⚙</button>
+</div>
+
+<dialog id="dlg">
+  <h3>ตั้งค่าลิงก์แอป</h3>
+  <p class="hint">วางลิงก์เว็บของแต่ละแอป ระบบจำไว้ในเครื่องนี้</p>
+  <div id="fields"></div>
+  <div class="row">
+    <button type="button" class="no" id="cancel">ยกเลิก</button>
+    <button type="button" class="ok" id="save">บันทึก</button>
+  </div>
+</dialog>
+
+<script>
+var APPS=[
+  {id:"stock",name:"นับสต็อก",desc:"นับกระทบสต๊อกสาขา",icon:"📦",url:"stock/"},
+  {id:"receive",name:"รับเข้าสินค้า",desc:"เช็คของเข้าร้าน",icon:"📥",url:"receive/"},
+  {id:"return",name:"ตีคืนสินค้า",desc:"บันทึกสินค้าที่ส่งคืน",icon:"↩️",url:"return/"},
+  {id:"marketplace",name:"Marketplace Settlement",desc:"กระทบยอดเงินโอน Shopee / Lazada / TikTok กับยอดขาย SAP",icon:"🛒",url:"marketplace/"}
+];
+var KEY="hub-links";
+function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");APPS.forEach(function(a){if(s[a.id])a.url=s[a.id];});}catch(e){}}
+function store(){try{var o={};APPS.forEach(function(a){o[a.id]=a.url;});localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}}
+var dlg=document.getElementById("dlg"),fields=document.getElementById("fields");
+function render(){
+  var g=document.getElementById("list");g.innerHTML="";
+  APPS.forEach(function(a){
+    var el=document.createElement("a");
+    el.className="choice"+(a.url?"":" empty");
+    el.href=a.url||"#";
+    el.innerHTML='<div class="ci"></div><div class="ct"><b></b><span></span></div><div class="arrow"></div>';
+    el.querySelector(".ci").textContent=a.icon;
+    el.querySelector("b").textContent=a.name;
+    el.querySelector("span").textContent=a.desc;
+    el.querySelector(".arrow").textContent=a.url?"›":"ใส่ลิงก์";
+    if(!a.url)el.addEventListener("click",function(ev){ev.preventDefault();openSet();});
+    g.appendChild(el);
+  });
+}
+function openSet(){
+  fields.innerHTML="";
+  APPS.forEach(function(a){
+    var l=document.createElement("label");l.textContent=a.name;l.htmlFor="f-"+a.id;
+    var i=document.createElement("input");i.id="f-"+a.id;i.type="url";i.placeholder="https://";i.value=a.url;
+    fields.appendChild(l);fields.appendChild(i);
+  });
+  dlg.showModal();
+}
+document.getElementById("openSet").addEventListener("click",openSet);
+document.getElementById("cancel").addEventListener("click",function(){dlg.close();});
+document.getElementById("save").addEventListener("click",function(){
+  APPS.forEach(function(a){a.url=document.getElementById("f-"+a.id).value.trim();});
+  store();render();dlg.close();
+});
+load();render();
+</script>
+</body>
+</html>
