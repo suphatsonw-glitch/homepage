@@ -94,12 +94,12 @@ input:focus{outline:3px solid #22a050;outline-offset:1px}
 
 <script>
 var APPS=[
-  {id:"stock",name:"นับสต็อก",desc:"นับกระทบสต๊อกสาขา",icon:"📦",url:"stock/"},
-  {id:"receive",name:"รับเข้าสินค้า",desc:"เช็คของเข้าร้าน",icon:"📥",url:"receive/"},
-  {id:"return",name:"ตีคืนสินค้า",desc:"บันทึกสินค้าที่ส่งคืน",icon:"↩️",url:"return/"},
-  {id:"marketplace",name:"Marketplace Settlement",desc:"กระทบยอดเงินโอน Shopee / Lazada / TikTok กับยอดขาย SAP",icon:"🛒",url:"marketplace/"}
+  {id:"stock",name:"นับสต็อก",desc:"นับกระทบสต๊อกสาขา",icon:"📦",url:"https://suphatsonw-glitch.github.io/smartstockb2c/"},
+  {id:"receive",name:"รับเข้าสินค้า",desc:"เช็คของเข้าร้าน",icon:"📥",url:"https://suphatsonw-glitch.github.io/smartreceiveb2c/"},
+  {id:"return",name:"ตีคืนสินค้า",desc:"บันทึกสินค้าที่ส่งคืน",icon:"↩️",url:"https://suphatsonw-glitch.github.io/smartreturnb2c/"},
+  {id:"marketplace",name:"Marketplace Settlement",desc:"กระทบยอดเงินโอน Shopee / Lazada / TikTok กับยอดขาย SAP",icon:"🛒",url:"https://suphatsonw-glitch.github.io/marketplace-settlement/"}
 ];
-var KEY="hub-links";
+var KEY="hub-links-v2";
 function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");APPS.forEach(function(a){if(s[a.id])a.url=s[a.id];});}catch(e){}}
 function store(){try{var o={};APPS.forEach(function(a){o[a.id]=a.url;});localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}}
 var dlg=document.getElementById("dlg"),fields=document.getElementById("fields");
