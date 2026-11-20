@@ -2,6 +2,8 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="only light">
+<meta name="supported-color-schemes" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d2e1a">
 <title>ระบบงานสาขา</title>
@@ -13,6 +15,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap">
 <style>
+:root { color-scheme: only light; }
+[hidden] { display: none !important; }
+input, select, textarea { color-scheme: only light; }
+
 :root{
   --deep:#0d2e1a; --df:#1a4a2e; --df-btn:#2d8a52; --green-l:#e8f5ee; --border:#d0dcd0;
   --text:#1a2a1a; --muted:#5f7f5f; --surface:#fff;
@@ -109,6 +115,7 @@ var APPS=[
   {id:"receive",name:"รับเข้าสินค้า",desc:"เช็คของเข้าร้าน",icon:"📥",url:"https://suphatsonw-glitch.github.io/smartreceiveb2c/"},
   {id:"return",name:"ตีคืนสินค้า",desc:"บันทึกสินค้าที่ส่งคืน",icon:"↩️",url:"https://suphatsonw-glitch.github.io/smartreturnb2c/"},
   {id:"expiry",name:"ทะเบียนวันหมดอายุ",desc:"บันทึกสินค้า จำนวน และวันหมดอายุ แจ้งเตือนของใกล้หมด",icon:"📅",url:"https://suphatsonw-glitch.github.io/smartexpiryb2c/"},
+  {id:"office",name:"สั่งอุปกรณ์สำนักงาน",desc:"ใบขอซื้อ (PR) แยกสาขา แนบรูปอ้างอิง",icon:"🖇️",url:"https://suphatsonw-glitch.github.io/smartofficeb2c/"},
   {id:"claim",name:"เคลมสินค้า",desc:"เคลมสินค้าเน่าเสีย / ขาดส่ง",icon:"🧾",url:"https://script.google.com/macros/s/AKfycbxsL8FEtKZdkLWo76yQDgOSqFUnPjoHyQOL6b4gNB4zJUlm3WintwTmMTGM9DbvvX4/exec"},
   {id:"dailysales",name:"ส่งยอดขายประจำวัน",desc:"Delish Foods — ส่งยอดขายประจำวัน",icon:"💰",url:"https://pcsupervisordelish-sketch.github.io/DailySalesReport/"},
   {id:"marketplace",name:"Marketplace Settlement",desc:"กระทบยอดเงินโอน Shopee / Lazada / TikTok กับยอดขาย SAP",icon:"🧮",url:"https://suphatsonw-glitch.github.io/marketplace-settlement/"}
