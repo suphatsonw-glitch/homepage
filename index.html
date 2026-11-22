@@ -118,6 +118,7 @@ var APPS=[
   {id:"office",name:"สั่งอุปกรณ์สำนักงาน",desc:"ใบขอซื้อ (PR) แยกสาขา แนบรูปอ้างอิง",icon:"🖇️",url:"https://suphatsonw-glitch.github.io/smartofficeb2c/"},
   {id:"claim",name:"เคลมสินค้า",desc:"เคลมสินค้าเน่าเสีย / ขาดส่ง",icon:"🧾",url:"https://script.google.com/macros/s/AKfycbxsL8FEtKZdkLWo76yQDgOSqFUnPjoHyQOL6b4gNB4zJUlm3WintwTmMTGM9DbvvX4/exec"},
   {id:"dailysales",name:"ส่งยอดขายประจำวัน",desc:"Delish Foods — ส่งยอดขายประจำวัน",icon:"💰",url:"https://pcsupervisordelish-sketch.github.io/DailySalesReport/"},
+  {id:"keyrama4",name:"คีย์ยอดพระราม 4",desc:"แยกออเดอร์ Grab / LINE MAN รวมยอดสินค้า คัดลอกลง SAP (WH05)",icon:"<svg viewBox=\"0 0 48 48\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 16V6h18v10\"/><path d=\"M19 10.5h10\"/><rect x=\"5\" y=\"16\" width=\"38\" height=\"12\" rx=\"3\"/><path d=\"M3 22h4M41 22h4\"/><path d=\"M8 28l-2 12h36l-2-12\"/><path d=\"M13 33h2M19 33h2M25 33h2M31 33h2M16 37.5h16\"/></svg>",url:"https://suphatsonw-glitch.github.io/smartkeyrama4b2c/"},
   {id:"marketplace",name:"Marketplace Settlement",desc:"กระทบยอดเงินโอน Shopee / Lazada / TikTok กับยอดขาย SAP",icon:"🧮",url:"https://suphatsonw-glitch.github.io/marketplace-settlement/"}
 ];
 var KEY="hub-links-v2";
@@ -132,7 +133,7 @@ function render(){
     el.className="choice"+(soon?" soon":a.url?"":" empty");
     el.href=a.url||"#";
     el.innerHTML='<div class="ci"></div><div class="ct"><b></b><span></span></div><div class="arrow"></div>';
-    el.querySelector(".ci").textContent=a.icon;
+    var ci=el.querySelector(".ci"); if(String(a.icon).indexOf("<svg")===0) ci.innerHTML=a.icon; else ci.textContent=a.icon;
     el.querySelector("b").textContent=a.name;
     el.querySelector("span").textContent=a.desc;
     el.querySelector(".arrow").textContent=soon?"เร็ว ๆ นี้":a.url?"›":"ใส่ลิงก์";
