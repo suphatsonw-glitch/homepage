@@ -68,6 +68,13 @@ input:focus{outline:3px solid #22a050;outline-offset:1px}
 @media(prefers-reduced-motion:reduce){.fruit,.leaf{animation:none}.leaf{display:none}.choice{transition:none}}
 .choice.soon{opacity:.62;cursor:default;border-style:dashed}.choice.soon .arrow{font-size:12px;font-weight:800;background:#fff4e6;color:#a05a0b;border-radius:99px;padding:4px 10px;width:auto}
 .install{z-index:1;border:0;border-radius:99px;padding:11px 20px;font:inherit;font-weight:800;font-size:15px;background:#fff;color:#145f2f;box-shadow:0 8px 24px rgba(0,0,0,.25);cursor:pointer}.install:active{transform:scale(.97)}
+.morebtn{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;margin-top:2px;padding:8px 14px;border-radius:14px;border:2px dashed var(--df-btn);background:var(--green-l);color:var(--df);font:inherit;font-weight:800;font-size:16px;cursor:pointer}
+.morebtn:active{transform:scale(.98)}.morebtn:focus-visible{outline:3px solid #22a050;outline-offset:2px}
+.morebtn .mi{width:30px;height:30px;border-radius:9px;background:var(--df-btn);color:#fff;display:grid;place-items:center;font-size:20px;line-height:1}
+.morebtn .mt{flex:1;text-align:left}.morebtn .mc{font-size:13px;font-weight:700;color:var(--muted)}.morebtn .mv{font-size:12px;color:var(--df-btn)}
+.more{display:flex;flex-direction:column;gap:10px;animation:moreIn .25s ease both}.more[hidden]{display:none}
+.more .choice{min-height:64px}.more .ci{width:42px;height:42px;font-size:22px}.more .ct b{font-size:16.5px}
+@keyframes moreIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -91,6 +98,8 @@ input:focus{outline:3px solid #22a050;outline-offset:1px}
   <div class="panel">
     <h2>เลือกงานที่ต้องการทำ</h2>
     <div id="list" style="display:flex;flex-direction:column;gap:10px"></div>
+    <button type="button" class="morebtn" id="moreBtn" aria-controls="more" aria-expanded="false"></button>
+    <div id="more" class="more" hidden></div>
   </div>
   <button type="button" class="install" id="installBtn" hidden>⬇️ ติดตั้งเป็นแอปในเครื่องนี้</button>
   <p class="credit">แตะเพื่อเปิดแอป</p>
@@ -110,25 +119,26 @@ input:focus{outline:3px solid #22a050;outline-offset:1px}
 
 <script>
 var APPS=[
-  {id:"stock",name:"นับสต็อก",desc:"นับกระทบสต๊อกสาขา",icon:"📦",url:"https://suphatsonw-glitch.github.io/smartstockb2c/"},
-  {id:"order",name:"สั่งสินค้าเข้าร้าน",desc:"สแกนสินค้าที่จะสั่ง พิมพ์ใบสั่ง และคัดลอกข้อความลง SAP",icon:"🛒",url:"https://suphatsonw-glitch.github.io/smartorderb2c/"},
-  {id:"receive",name:"รับเข้าสินค้า",desc:"เช็คของเข้าร้าน",icon:"📥",url:"https://suphatsonw-glitch.github.io/smartreceiveb2c/"},
-  {id:"return",name:"ตีคืนสินค้า",desc:"บันทึกสินค้าที่ส่งคืน",icon:"↩️",url:"https://suphatsonw-glitch.github.io/smartreturnb2c/"},
-  {id:"expiry",name:"ทะเบียนวันหมดอายุ",desc:"บันทึกสินค้า จำนวน และวันหมดอายุ แจ้งเตือนของใกล้หมด",icon:"📅",url:"https://suphatsonw-glitch.github.io/smartexpiryb2c/"},
-  {id:"report",name:"ศูนย์รายงาน",desc:"เลือกช่วงวันที่ แล้วพิมพ์ / Excel รายงานจากชีตกลาง — ผลนับ เหตุผลผลต่าง รับเข้า ตีคืน GI ทะเบียนปัญหา",icon:"📑",url:"https://suphatsonw-glitch.github.io/smartreportb2c/"},
-  {id:"office",name:"สั่งอุปกรณ์สำนักงาน",desc:"ใบขอซื้อ (PR) แยกสาขา แนบรูปอ้างอิง",icon:"🖇️",url:"https://suphatsonw-glitch.github.io/smartofficeb2c/"},
-  {id:"claim",name:"เคลมสินค้า",desc:"เคลมสินค้าเน่าเสีย / ขาดส่ง",icon:"🧾",url:"https://script.google.com/macros/s/AKfycbxsL8FEtKZdkLWo76yQDgOSqFUnPjoHyQOL6b4gNB4zJUlm3WintwTmMTGM9DbvvX4/exec"},
-  {id:"dailysales",name:"ส่งยอดขายประจำวัน",desc:"Delish Foods — ส่งยอดขายประจำวัน",icon:"💰",url:"https://pcsupervisordelish-sketch.github.io/DailySalesReport/"},
-  {id:"keyrama4",name:"คีย์ยอดพระราม 4",desc:"แยกออเดอร์ Grab / LINE MAN รวมยอดสินค้า คัดลอกลง SAP (WH05)",icon:"<svg viewBox=\"0 0 48 48\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 16V6h18v10\"/><path d=\"M19 10.5h10\"/><rect x=\"5\" y=\"16\" width=\"38\" height=\"12\" rx=\"3\"/><path d=\"M3 22h4M41 22h4\"/><path d=\"M8 28l-2 12h36l-2-12\"/><path d=\"M13 33h2M19 33h2M25 33h2M31 33h2M16 37.5h16\"/></svg>",url:"https://suphatsonw-glitch.github.io/smartkeyrama4b2c/"},
-  {id:"marketplace",name:"Marketplace Settlement",desc:"กระทบยอดเงินโอน Shopee / Lazada / TikTok กับยอดขาย SAP",icon:"🧮",url:"https://suphatsonw-glitch.github.io/marketplace-settlement/"}
+  {id:"pos",g:"main",name:"ขายหน้าร้าน (POS)",desc:"สแกนขาย รับโอน ส่วนลดพนักงาน ใบเสร็จ ถ่ายสลิป คัดลอกยอดลง SAP ทีละบิล",icon:"🧾",url:"https://suphatsonw-glitch.github.io/smartposb2c/"},
+  {id:"stock",g:"main",name:"นับสต็อก",desc:"นับกระทบสต๊อกสาขา",icon:"📦",url:"https://suphatsonw-glitch.github.io/smartstockb2c/"},
+  {id:"receive",g:"main",name:"รับเข้าสินค้า",desc:"เช็คของเข้าร้าน",icon:"📥",url:"https://suphatsonw-glitch.github.io/smartreceiveb2c/"},
+  {id:"return",g:"main",name:"ตีคืนสินค้า",desc:"บันทึกสินค้าที่ส่งคืน",icon:"↩️",url:"https://suphatsonw-glitch.github.io/smartreturnb2c/"},
+  {id:"order",g:"main",name:"สั่งสินค้าเข้าร้าน",desc:"สแกนสินค้าที่จะสั่ง พิมพ์ใบสั่ง และคัดลอกข้อความลง SAP",icon:"🛒",url:"https://suphatsonw-glitch.github.io/smartorderb2c/"},
+  {id:"dailysales",g:"main",name:"ส่งยอดขายประจำวัน",desc:"ส่งยอดขายประจำวันของสาขา",icon:"💰",url:"https://pcsupervisordelish-sketch.github.io/DailySalesReport/"},
+  {id:"expiry",g:"more",name:"ทะเบียนวันหมดอายุ",desc:"บันทึกสินค้า จำนวน และวันหมดอายุ แจ้งเตือนของใกล้หมด",icon:"📅",url:"https://suphatsonw-glitch.github.io/smartexpiryb2c/"},
+  {id:"keyrama4",g:"more",name:"คีย์ยอดพระราม 4",desc:"แยกออเดอร์ Grab / LINE MAN รวมยอดสินค้า คัดลอกลง SAP (WH05)",icon:"<svg viewBox=\"0 0 48 48\" width=\"1em\" height=\"1em\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 16V6h18v10\"/><path d=\"M19 10.5h10\"/><rect x=\"5\" y=\"16\" width=\"38\" height=\"12\" rx=\"3\"/><path d=\"M3 22h4M41 22h4\"/><path d=\"M8 28l-2 12h36l-2-12\"/><path d=\"M13 33h2M19 33h2M25 33h2M31 33h2M16 37.5h16\"/></svg>",url:"https://suphatsonw-glitch.github.io/smartkeyrama4b2c/"},
+  {id:"claim",g:"more",name:"เคลมสินค้า",desc:"เคลมสินค้าเน่าเสีย / ขาดส่ง",icon:"🧾",url:"https://script.google.com/macros/s/AKfycbxsL8FEtKZdkLWo76yQDgOSqFUnPjoHyQOL6b4gNB4zJUlm3WintwTmMTGM9DbvvX4/exec"},
+  {id:"marketplace",g:"more",name:"กระทบยอด",desc:"กระทบยอดเงินโอน Shopee / Lazada / TikTok กับยอดขาย SAP",icon:"🧮",url:"https://suphatsonw-glitch.github.io/marketplace-settlement/"},
+  {id:"report",g:"more",name:"ศูนย์รายงาน",desc:"เลือกช่วงวันที่ แล้วพิมพ์ / Excel รายงานจากชีตกลาง",icon:"📑",url:"https://suphatsonw-glitch.github.io/smartreportb2c/"},
+  {id:"office",g:"more",name:"สั่งอุปกรณ์สำนักงาน",desc:"ใบขอซื้อ (PR) แยกสาขา แนบรูปอ้างอิง",icon:"🖇️",url:"https://suphatsonw-glitch.github.io/smartofficeb2c/"},
+  {id:"price",g:"more",name:"คำนวณราคารายเดือน",desc:"ต้นทุน → ราคาแพ็คแยกแพลตฟอร์ม ไฟล์อัป SAP และส่งเป็นฐานราคา POS",icon:"💹",url:"https://suphatsonw-glitch.github.io/smartpriceb2c/"},
+  {id:"customer",g:"more",name:"เปิดหัวลูกค้าใหม่",desc:"วางข้อความ/รูปจากลูกค้า แยกที่อยู่ เลขภาษี คัดลอกลง SAP",icon:"🪪",url:"https://suphatsonw-glitch.github.io/smartcustomerb2c/"}
 ];
 var KEY="hub-links-v2";
 function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");APPS.forEach(function(a){if(s[a.id])a.url=s[a.id];});}catch(e){}}
 function store(){try{var o={};APPS.forEach(function(a){o[a.id]=a.url;});localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}}
 var dlg=document.getElementById("dlg"),fields=document.getElementById("fields");
-function render(){
-  var g=document.getElementById("list");g.innerHTML="";
-  APPS.forEach(function(a){
+function card(a){
     var el=document.createElement("a");
     var soon=a.soon&&!a.url;
     el.className="choice"+(soon?" soon":a.url?"":" empty");
@@ -140,9 +150,22 @@ function render(){
     el.querySelector(".arrow").textContent=soon?"เร็ว ๆ นี้":a.url?"›":"ใส่ลิงก์";
     if(soon)el.addEventListener("click",function(ev){ev.preventDefault();});
     else if(!a.url)el.addEventListener("click",function(ev){ev.preventDefault();openSet();});
-    g.appendChild(el);
-  });
+    return el;
 }
+var MORE_KEY="hub-more-open";
+function render(){
+  var g=document.getElementById("list"),m=document.getElementById("more"),mb=document.getElementById("moreBtn");g.innerHTML="";m.innerHTML="";
+  var more=APPS.filter(function(a){return a.g==="more";});
+  APPS.forEach(function(a){(a.g==="more"?m:g).appendChild(card(a));});
+  var open=false;try{open=localStorage.getItem(MORE_KEY)==="1";}catch(e){}
+  m.hidden=!open;mb.setAttribute("aria-expanded",open?"true":"false");
+  mb.innerHTML='<span class="mi">'+(open?"−":"＋")+'</span><span class="mt">แอปเพิ่มเติม</span><span class="mc">'+more.length+' แอป</span><span class="mv">'+(open?"▲":"▼")+'</span>';
+}
+document.getElementById("moreBtn").addEventListener("click",function(){
+  var m=document.getElementById("more"),open=m.hidden;
+  try{localStorage.setItem(MORE_KEY,open?"1":"0");}catch(e){}
+  render(); if(open) m.firstChild&&m.firstChild.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
 function openSet(){
   fields.innerHTML="";
   APPS.forEach(function(a){
