@@ -132,7 +132,9 @@ var APPS=[
   {id:"report",g:"more",name:"ศูนย์รายงาน",desc:"เลือกช่วงวันที่ แล้วพิมพ์ / Excel รายงานจากชีตกลาง",icon:"📑",url:"https://suphatsonw-glitch.github.io/smartreportb2c/"},
   {id:"office",g:"more",name:"สั่งอุปกรณ์สำนักงาน",desc:"ใบขอซื้อ (PR) แยกสาขา แนบรูปอ้างอิง",icon:"🖇️",url:"https://suphatsonw-glitch.github.io/smartofficeb2c/"},
   {id:"price",g:"more",name:"คำนวณราคารายเดือน",desc:"ต้นทุน → ราคาแพ็คแยกแพลตฟอร์ม ไฟล์อัป SAP และส่งเป็นฐานราคา POS",icon:"💹",url:"https://suphatsonw-glitch.github.io/smartpriceb2c/"},
-  {id:"customer",g:"more",name:"เปิดหัวลูกค้าใหม่",desc:"วางข้อความ/รูปจากลูกค้า แยกที่อยู่ เลขภาษี คัดลอกลง SAP",icon:"🪪",url:"https://suphatsonw-glitch.github.io/smartcustomerb2c/"}
+  {id:"customer",g:"more",name:"เปิดหัวลูกค้าใหม่",desc:"วางข้อความ/รูปจากลูกค้า แยกที่อยู่ เลขภาษี คัดลอกลง SAP",icon:"🪪",url:"https://suphatsonw-glitch.github.io/smartcustomerb2c/"},
+  {id:"photo",g:"more",name:"แต่งรูปสินค้า",desc:"ใส่กรอบ ไดคัทกรอบ เพิ่มข้อความ เปลี่ยนฟอนต์ บันทึกแม่แบบไว้ใช้ซ้ำ",icon:"🖼️",url:"https://suphatsonw-glitch.github.io/smartphotob2c/"},
+  {id:"video",g:"more",name:"ตัดต่อคลิป",desc:"ตัดช่วงเงียบอัตโนมัติ ใส่ซับ เอฟเฟกต์ เปลี่ยนฉาก เพลง ส่งออก MP4",icon:"🎬",url:"https://suphatsonw-glitch.github.io/smartvideob2c/"}
 ];
 var KEY="hub-links-v2";
 function load(){try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");APPS.forEach(function(a){if(s[a.id])a.url=s[a.id];});}catch(e){}}
